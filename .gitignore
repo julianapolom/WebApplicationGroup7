@@ -1,0 +1,16 @@
+*.suo
+*.user
+*/bin
+*/obj
+*/Log
+*/packages
+*.log
+*.pdb
+*.bak
+*.cache
+*.txt
+*.zip
+*.rar
+/.vs
+*.config
+/WebApplicationIntcomex/.vs
