@@ -1,7 +1,9 @@
-﻿
+﻿using Business.Intcomex.Interfaces;
+using DataAcces.Intcomex.Class;
 using DataAcces.Intcomex.Interfaces;
 using Entity.Intcomex.Models;
-namespace DataAcces.Intcomex.Class
+
+namespace Business.Intcomex.Class
 {
     public class UnitOfWork : IUnitOfWork
     {

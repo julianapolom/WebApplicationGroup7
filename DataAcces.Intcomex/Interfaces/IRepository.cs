@@ -4,9 +4,9 @@
     {
         IEnumerable<TEntity> GetAll();
         TEntity GetById(int id);
-        void Add(TEntity entity);
-        void Update(TEntity entity);
-        void Delete(int id);
+        bool Add(TEntity entity);
+        bool Update(TEntity entity);
+        bool Delete(int id);
         void Save();
     }
 }

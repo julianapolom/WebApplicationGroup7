@@ -1,6 +1,6 @@
 ﻿using DataAcces.Intcomex.Interfaces;
-using Entity.Intcomex.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
 
 namespace DataAcces.Intcomex.Class
 {
@@ -38,37 +38,89 @@ namespace DataAcces.Intcomex.Class
         /// </summary>
         /// <param name="id">id a filtrar</param>
         /// <returns>Objeto buscado</returns>
-        public TEntity GetById(int id)
-            => _dbset.Find(id);
+        public TEntity GetById(int id) =>
+            _dbset.Find(id);
 
         /// <summary>
         /// Crea o inserta registros en la tabla o entidad.
         /// </summary>
         /// <param name="entity"></param>
-        public void Add(TEntity entity) =>
-            _dbset.Add(entity);
+        public virtual bool Add(TEntity entity)
+        {
+            bool result = false;
+            using (IDbContextTransaction dbTransaction = _context.Database.BeginTransaction())
+            {
+                try
+                {
+                    _dbset.Add(entity);
+                    dbTransaction.Commit();
+                    result = true;
+                }
+                catch (Exception)
+                {
+                    dbTransaction.Rollback();
+                    result = false;
+                }
+            }
+
+            return result;
+        }
 
         /// <summary>
         /// Elimina objetos por id
         /// </summary>
         /// <param name="id">id a filtrar</param>
-        public void Delete(int id) =>
-            _dbset.Remove(_dbset.Find(id));
+        public virtual bool Delete(int id)
+        {
+            bool result = false;
+            using (IDbContextTransaction dbTransaction = _context.Database.BeginTransaction())
+            {
+                try
+                {
+                    _dbset.Remove(_dbset.Find(id));
+                    dbTransaction.Commit();
+                    result = true;
+                }
+                catch (Exception)
+                {
+                    dbTransaction.Rollback();
+                    result = false;
+                }
+            }
+
+            return result;
+        }
 
         /// <summary>
         /// Actualiza el objeto o entidad en base de datos.
         /// </summary>
         /// <param name="entity">Entidad a modificar</param>
-        public void Update(TEntity entity)
+        public virtual bool Update(TEntity entity)
         {
-            _dbset.Attach(entity);
-            _context.Entry(entity).State = EntityState.Modified;
+            bool result = false;
+            using (IDbContextTransaction dbTransaction = _context.Database.BeginTransaction())
+            {
+                try
+                {
+                    _dbset.Attach(entity);
+                    _context.Entry(entity).State = EntityState.Modified;
+                    dbTransaction.Commit();
+                    result = true;
+                }
+                catch (Exception)
+                {
+                    dbTransaction.Rollback();
+                    result = false;
+                }
+            }
+
+            return result;
         }
 
         /// <summary>
         /// Guarda los cambios que afecten la base de datos.
         /// </summary>
-        public void Save()
-            => _context.SaveChanges();
+        public void Save() =>
+            _context.SaveChanges();
     }
 }

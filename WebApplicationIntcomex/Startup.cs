@@ -1,6 +1,7 @@
+using Business.Intcomex.Class;
+using Business.Intcomex.Interfaces;
 using DataAcces.Intcomex.Class;
-using DataAcces.Intcomex.Interfaces;
-using Entity.Intcomex.Models;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using WebApplicationIntcomex.Configuration;
 
@@ -19,13 +20,12 @@ namespace WebApplicationIntcomex
         {
             services.AddControllersWithViews();
             services.Configure<MyConfig>(Configuration.GetSection("MyConfig"));
-            services.AddDbContext<IntcomexContext>(options =>
-            {
-                options.UseSqlServer(Configuration.GetConnectionString("Connection"));
-            });
+            var options = new DbContextOptionsBuilder<IntcomexContext>()
+                   .UseSqlServer(new SqlConnection(Configuration.GetConnectionString("Connection")))
+                   .Options;
 
-            services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
-            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IClientBO, ClientBO>(x =>
+                new ClientBO(new UnitOfWork(new IntcomexContext(options))));
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -39,18 +39,16 @@ namespace WebApplicationIntcomex
                 app.UseExceptionHandler("/Home/Error");
                 app.UseHsts();
             }
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
             app.UseRouting();
-
             app.UseAuthorization();
-
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Client}/{action=Index}/{id?}");
             });
         }
     }

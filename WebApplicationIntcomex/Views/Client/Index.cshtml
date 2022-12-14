@@ -1,0 +1,59 @@
+﻿@using WebApplicationIntcomex.Models;
+@model ClientVM
+
+@using (Html.BeginForm("Index", "AdministrarBlob", FormMethod.Post))
+{
+
+    @Html.AntiForgeryToken()
+    <div class="page-header">
+        <h1>
+            <a style="text-decoration:none;" href="@Url.Action("Index", "AdministrarBlob")" title="Administrar blob storage">
+                <i class="icon-cog"></i>
+            </a>
+            Básica
+            <small>
+                <i class="icon-double-angle-right"></i>
+                Administrar blob storage
+            </small>
+        </h1>
+    </div>
+    <!-- /.page-header -->
+    <div class="row">
+        <div class="col-xs-12 col-sm-12">
+            <br />
+            @if (Model != null)
+            {
+                <input type="hidden" id="hdIdBlob" />
+                <div class="row">
+                    <div class="widget-main">
+                        <div class="col-xs-10 col-sm-10" id="tblResultado">
+                            <div class="table-responsive" style="width:100%" width="100%">
+                                <div class="table-header">
+                                    <div class="row">
+                                        <div class="col-xs-10 col-sm-10">
+                                            Resultado de la búsqueda
+                                        </div>
+                                    </div>
+                                    <div class="pull-right tableTools-container"></div>
+                                </div>
+                                <div class="divInforme">
+                                    @await Html.PartialAsync("_PartialName", Model.ListClients)
+                                </div>
+                            </div>
+                        </div>
+                        <div id="divCrear">
+                            <div class="col-xs-2 col-sm-2 btn-group-vertical">
+                                <a href="#modal-form-crear-blob" data-toggle="modal" role="button" data-rel="tooltip" title="Crear blob" data-original-title="Crear blob XML" class="btn btn-sm btn-primary right crear-btn">
+                                    <div>
+                                        <i class="icon-plus-sign bigger-110 align-top">
+                                        </i>Crear
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+}

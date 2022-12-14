@@ -6,4 +6,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\DataAcces.Intcomex\DataAcces.Intcomex.csproj" />
+    <ProjectReference Include="..\Entity.Intcomex\Entity.Intcomex.csproj" />
+  </ItemGroup>
+
 </Project>
