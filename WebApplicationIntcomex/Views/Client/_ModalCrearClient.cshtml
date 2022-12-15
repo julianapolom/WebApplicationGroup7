@@ -1,0 +1,188 @@
+﻿@model WebApplicationIntcomex.Models.ClientDTO
+<style>
+    .hide-control {
+        display: none;
+    }
+</style>
+<!-- Modal -->
+<div class="modal fade" id="modal-form-create-client" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Create Client</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="formcreateclient">
+                    <div class="row">
+                        <div class="col-xs-6 col-sm-6">
+                            <div class="form-group col-xs-12 col-sm-12">
+                                @Html.LabelFor(model => model.FirstName)<span class="texto-requerido"> (required)</span>                                
+                                @Html.EditorFor(model => model.FirstName,
+                                new {
+                                    htmlAttributes = new
+                                    {
+                                        @Id = "txt_firstname",
+                                        @maxlength = 50,
+                                        @placeholder = "First name",
+                                        @autocomplete = "off",
+                                        @class = "form-control wizard-form-control CampoRequerido",
+                                        @onkeypress = "return SiteTools.restrictBolean('letters', event.key);",
+                                        @onblur = "SiteTools.restrictValor('letters', this)"
+                                    }
+                                })
+                                <span id="sp_firstname" class="text-danger hide-control"></span>
+                            </div>
+                        </div>
+                        <div class="col-xs-6 col-sm-6">
+                            <div class="form-group col-xs-12 col-sm-12">
+                                @Html.LabelFor(model => model.SecondName)
+                                @Html.EditorFor(model => model.SecondName,
+                                new {
+                                    htmlAttributes = new
+                                    {
+                                        @Id = "txt_seconname",
+                                        @maxlength = 50,
+                                        @placeholder = "Second Name",
+                                        @autocomplete = "off",
+                                        @class = "form-control wizard-form-control CampoRequerido",
+                                        @onkeypress = "return SiteTools.restrictBolean('letters', event.key);",
+                                        @onblur = "SiteTools.restrictValor('letters', this)"
+                                    }
+                                })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-6 col-sm-6">
+                            <div class="form-group col-xs-12 col-sm-12">
+                                @Html.LabelFor(model => model.LastName)<span class="texto-requerido"> (required)</span>
+                                @Html.EditorFor(model => model.LastName,
+                                new {
+                                    htmlAttributes = new
+                                    {
+                                        @Id = "txt_lastname",
+                                        @maxlength = 50,
+                                        @placeholder = "Last Name",
+                                        @autocomplete = "off",
+                                        @class = "form-control wizard-form-control CampoRequerido",
+                                        @onkeypress = "return SiteTools.restrictBolean('letters', event.key);",
+                                        @onblur = "SiteTools.restrictValor('letters', this)"
+                                    }
+                                })
+                                <span id="sp_lastname" class="text-danger hide-control"></span>
+                            </div>
+                        </div>
+                        <div class="col-xs-6 col-sm-6">
+                            <div class="form-group col-xs-12 col-sm-12">
+                                @Html.LabelFor(model => model.UserClient)<span class="texto-requerido"> (required)</span>
+                                @Html.EditorFor(model => model.UserClient,
+                                new {
+                                    htmlAttributes = new
+                                    {
+                                        @Id = "txt_userclient",
+                                        @maxlength = 50,
+                                        @placeholder = "User Client",
+                                        @autocomplete = "off",
+                                        @class = "form-control wizard-form-control CampoRequerido",
+                                        @onkeypress = "return SiteTools.restrictBolean('letters', event.key);",
+                                        @onblur = "SiteTools.restrictValor('letters', this)"
+                                    }
+                                })
+                                <span id="sp_userclient" class="text-danger hide-control"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-6 col-sm-6">
+                            <div class="form-group col-xs-12 col-sm-12">
+                                @Html.LabelFor(model => model.Charge)<span class="texto-requerido"> (required)</span>
+                                @Html.EditorFor(model => model.Charge,
+                                new {
+                                    htmlAttributes = new
+                                    {
+                                        @Id = "txt_charge",
+                                        @maxlength = 50,
+                                        @placeholder = "Charge",
+                                        @autocomplete = "off",
+                                        @class = "form-control wizard-form-control CampoRequerido",
+                                        @onkeypress = "return SiteTools.restrictBolean('letters', event.key);",
+                                        @onblur = "SiteTools.restrictValor('letters', this)"
+                                    }
+                                })
+                                <span id="sp_charge" class="text-danger hide-control"></span>
+                            </div>
+                        </div>
+                        <div class="col-xs-6 col-sm-6">
+                            <div class="form-group col-xs-12 col-sm-12">
+                                @Html.LabelFor(model => model.PhoneNumber)<span class="texto-requerido"> (required)</span>
+                                @Html.EditorFor(model => model.PhoneNumber,
+                                new {
+                                    htmlAttributes = new
+                                    {
+                                        @Id = "txt_phonenumber",
+                                        @maxlength = 13,
+                                        @placeholder = "Phone Number",
+                                        @autocomplete = "off",
+                                        @class = "form-control wizard-form-control CampoRequerido",
+                                        @onkeypress = "return SiteTools.restrictBolean('numbers', event.key);",
+                                        @onblur = "SiteTools.restrictValor('numbers', this)"
+                                    }
+                                })
+                                <span id="sp_phonenumber" class="text-danger hide-control"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-6 col-sm-6">
+                            <div class="form-group col-xs-12 col-sm-12">
+                                @Html.LabelFor(model => model.Email)<span class="texto-requerido"> (required)</span>                                
+                                @Html.EditorFor(model => model.Email,
+                                new {
+                                    htmlAttributes = new
+                                    {
+                                        @Id = "txt_email",
+                                        @maxlength = 150,
+                                        @placeholder = "Email",
+                                        @autocomplete = "off",
+                                        @class = "form-control wizard-form-control CampoRequerido",
+                                        @onblur = "SiteTools.restrictValor('correo', this)"
+                                    }
+                                })
+                                <span id="sp_email" class="text-danger hide-control"></span>
+                            </div>
+                        </div>
+                        <div class="col-xs-6 col-sm-6">
+                            <div class="form-group col-xs-12 col-sm-12">
+                                <label for="AutorizacionFacturas">Empresa</label><span class="texto-requerido"> (requerido)</span>
+                                <div class="clearfix">
+                                    @if (ViewBag.Contracts != null)
+                                    {
+                                        @Html.DropDownListFor(m => m.IdContract, (IEnumerable<SelectListItem>)ViewBag.Contracts, "SELECCIONE",
+                                            new
+                                            {
+                                                @class = "form-control wizard-form-control CampoRequerido",
+                                                @Id = "ddl_contract"
+                                            })
+                                    }
+                                    else
+                                    {
+                                        @Html.Label("There are no configured contracts")
+                                    }
+                                </div>
+                                <span id="sp_contract" class="text-danger hide-control"></span>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary create-client" id="btncreate">Create</button>
+                <button type="button" class="btn btn-primary hide-control" id="btnupdate">Update</button>
+            </div>
+        </div>
+    </div>
+</div>

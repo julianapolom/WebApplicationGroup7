@@ -9,7 +9,7 @@ namespace Business.Intcomex.Interfaces
 {
     public interface IClientBO
     {
-        bool Add(Client pClient);
+        bool Add(string pClient);
 
         List<Client> GetAll();
     }

@@ -35,10 +35,10 @@ namespace DataAcces.Intcomex.Class
                     .HasMaxLength(150)
                     .IsUnicode(false)
                     .HasColumnName("email");
-                entity.Property(e => e.FirstNombre)
+                entity.Property(e => e.FirstName)
                     .HasMaxLength(25)
                     .IsUnicode(false)
-                    .HasColumnName("first_nombre");
+                    .HasColumnName("first_name");
                 entity.Property(e => e.IdContract).HasColumnName("id_contract");
                 entity.Property(e => e.LastName)
                     .HasMaxLength(50)

@@ -7,6 +7,5 @@
         bool Add(TEntity entity);
         bool Update(TEntity entity);
         bool Delete(int id);
-        void Save();
     }
 }

@@ -9,10 +9,8 @@ namespace WebApplicationIntcomex
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
-        {
+        public Startup(IConfiguration configuration) =>
             Configuration = configuration;
-        }
 
         public IConfiguration Configuration { get; }
 
@@ -23,9 +21,9 @@ namespace WebApplicationIntcomex
             var options = new DbContextOptionsBuilder<IntcomexContext>()
                    .UseSqlServer(new SqlConnection(Configuration.GetConnectionString("Connection")))
                    .Options;
-
-            services.AddScoped<IClientBO, ClientBO>(x =>
-                new ClientBO(new UnitOfWork(new IntcomexContext(options))));
+            IntcomexContext _context = new(options);
+            services.AddScoped<IClientBO, ClientBO>(x => new ClientBO(new UnitOfWork(_context)));
+            services.AddScoped<IContractBO, ContractBO>(x => new ContractBO(new UnitOfWork(_context)));
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

@@ -54,31 +54,7 @@ namespace DataAcces.Intcomex.Class
                 {
                     _dbset.Add(entity);
                     dbTransaction.Commit();
-                    result = true;
-                }
-                catch (Exception)
-                {
-                    dbTransaction.Rollback();
-                    result = false;
-                }
-            }
-
-            return result;
-        }
-
-        /// <summary>
-        /// Elimina objetos por id
-        /// </summary>
-        /// <param name="id">id a filtrar</param>
-        public virtual bool Delete(int id)
-        {
-            bool result = false;
-            using (IDbContextTransaction dbTransaction = _context.Database.BeginTransaction())
-            {
-                try
-                {
-                    _dbset.Remove(_dbset.Find(id));
-                    dbTransaction.Commit();
+                    _context.SaveChanges();
                     result = true;
                 }
                 catch (Exception)
@@ -105,6 +81,7 @@ namespace DataAcces.Intcomex.Class
                     _dbset.Attach(entity);
                     _context.Entry(entity).State = EntityState.Modified;
                     dbTransaction.Commit();
+                    _context.SaveChanges();
                     result = true;
                 }
                 catch (Exception)
@@ -118,9 +95,29 @@ namespace DataAcces.Intcomex.Class
         }
 
         /// <summary>
-        /// Guarda los cambios que afecten la base de datos.
+        /// Elimina objetos por id
         /// </summary>
-        public void Save() =>
-            _context.SaveChanges();
+        /// <param name="id">id a filtrar</param>
+        public virtual bool Delete(int id)
+        {
+            bool result = false;
+            using (IDbContextTransaction dbTransaction = _context.Database.BeginTransaction())
+            {
+                try
+                {
+                    _dbset.Remove(_dbset.Find(id));
+                    dbTransaction.Commit();
+                    _context.SaveChanges();
+                    result = true;
+                }
+                catch (Exception)
+                {
+                    dbTransaction.Rollback();
+                    result = false;
+                }
+            }
+
+            return result;
+        }
     }
 }

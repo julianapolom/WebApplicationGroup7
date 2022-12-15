@@ -1,54 +1,38 @@
-﻿@using WebApplicationIntcomex.Models;
-@model ClientVM
-
-@using (Html.BeginForm("Index", "AdministrarBlob", FormMethod.Post))
-{
-
+﻿@model WebApplicationIntcomex.Models.ClientVM
+<form asp-controller="Client" asp-action="Index" method="post">
     @Html.AntiForgeryToken()
-    <div class="page-header">
-        <h1>
-            <a style="text-decoration:none;" href="@Url.Action("Index", "AdministrarBlob")" title="Administrar blob storage">
-                <i class="icon-cog"></i>
-            </a>
-            Básica
-            <small>
-                <i class="icon-double-angle-right"></i>
-                Administrar blob storage
-            </small>
-        </h1>
+    <div class="row">
+        <div class="col-md-6">
+            <h1>
+                Admin Clients
+            </h1>
+        </div>
+        <div class="col-md-6 text-right pt-3">
+            <button type="button" class="btn btn-outline-primary create-btn" data-toggle="modal" data-target="#modal-form-create-client">
+                Create client
+            </button>
+        </div>
     </div>
-    <!-- /.page-header -->
+    <hr />
     <div class="row">
         <div class="col-xs-12 col-sm-12">
             <br />
+            <input type="hidden" id="hdIdClient" />
             @if (Model != null)
             {
-                <input type="hidden" id="hdIdBlob" />
                 <div class="row">
-                    <div class="widget-main">
-                        <div class="col-xs-10 col-sm-10" id="tblResultado">
-                            <div class="table-responsive" style="width:100%" width="100%">
-                                <div class="table-header">
-                                    <div class="row">
-                                        <div class="col-xs-10 col-sm-10">
-                                            Resultado de la búsqueda
-                                        </div>
+                    <div class="col-xs-12 col-sm-12" id="tblResultado">
+                        <div style="width:100%" width="100%">
+                            <div class="table-header">
+                                <div class="row">
+                                    <div class="col-xs-10 col-sm-10">
+                                        Resultado de la búsqueda
                                     </div>
-                                    <div class="pull-right tableTools-container"></div>
                                 </div>
-                                <div class="divInforme">
-                                    @await Html.PartialAsync("_PartialName", Model.ListClients)
-                                </div>
+                                <div class="pull-right tableTools-container"></div>
                             </div>
-                        </div>
-                        <div id="divCrear">
-                            <div class="col-xs-2 col-sm-2 btn-group-vertical">
-                                <a href="#modal-form-crear-blob" data-toggle="modal" role="button" data-rel="tooltip" title="Crear blob" data-original-title="Crear blob XML" class="btn btn-sm btn-primary right crear-btn">
-                                    <div>
-                                        <i class="icon-plus-sign bigger-110 align-top">
-                                        </i>Crear
-                                    </div>
-                                </a>
+                            <div class="divInforme">
+                                @await Html.PartialAsync("_Clients", Model.ListClients)
                             </div>
                         </div>
                     </div>
@@ -56,4 +40,17 @@
             }
         </div>
     </div>
+</form>
+<!-- Modal para crear un área -->
+@await Html.PartialAsync("_ModalCrearClient", Model?.modelPopUp)
+
+<script>
+    var urlGetAll = '@Url.Action("GetAll", "Client")',
+        urlGetById = '@Url.Action("GetById", "Client")',
+        urlCreate = '@Url.Action("Create", "Client")',
+        urlUpdate = '@Url.Action("Update", "Client")',
+        urlDelete = '@Url.Action("Delete", "Client")';
+</script>
+@section scripts{
+    <script src="@Url.Content("~/scriptapp/Client.js")"></script>
 }

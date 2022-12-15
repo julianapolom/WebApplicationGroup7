@@ -20,3 +20,27 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.texto-requerido {
+    color: #478fca;
+    font-size: 10px;
+    font-style: italic;
+}
+
+.ModalProgress {
+    display: none;
+    position: fixed;
+    z-index: 1500;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    background-color: rgba(167, 167, 167, 0.32);
+}
+
+.modal-position {
+    position: relative;
+    align-content: center !important;
+    text-align: center;
+    top: 20%;
+}
