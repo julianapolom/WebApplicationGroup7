@@ -25,7 +25,7 @@
                                     htmlAttributes = new
                                     {
                                         @Id = "txt_firstname",
-                                        @maxlength = 50,
+                                        @maxlength = 25,
                                         @placeholder = "First name",
                                         @autocomplete = "off",
                                         @class = "form-control wizard-form-control CampoRequerido",
@@ -44,7 +44,7 @@
                                     htmlAttributes = new
                                     {
                                         @Id = "txt_seconname",
-                                        @maxlength = 50,
+                                        @maxlength = 25,
                                         @placeholder = "Second Name",
                                         @autocomplete = "off",
                                         @class = "form-control wizard-form-control CampoRequerido",
@@ -83,7 +83,7 @@
                                     htmlAttributes = new
                                     {
                                         @Id = "txt_userclient",
-                                        @maxlength = 50,
+                                        @maxlength = 25,
                                         @placeholder = "User Client",
                                         @autocomplete = "off",
                                         @class = "form-control wizard-form-control CampoRequerido",
@@ -104,7 +104,7 @@
                                     htmlAttributes = new
                                     {
                                         @Id = "txt_charge",
-                                        @maxlength = 50,
+                                        @maxlength = 100,
                                         @placeholder = "Charge",
                                         @autocomplete = "off",
                                         @class = "form-control wizard-form-control CampoRequerido",
@@ -123,7 +123,7 @@
                                     htmlAttributes = new
                                     {
                                         @Id = "txt_phonenumber",
-                                        @maxlength = 13,
+                                        @maxlength = 10,
                                         @placeholder = "Phone Number",
                                         @autocomplete = "off",
                                         @class = "form-control wizard-form-control CampoRequerido",
@@ -138,7 +138,7 @@
                     <div class="row">
                         <div class="col-xs-6 col-sm-6">
                             <div class="form-group col-xs-12 col-sm-12">
-                                @Html.LabelFor(model => model.Email)<span class="texto-requerido"> (required)</span>                                
+                                @Html.LabelFor(model => model.Email)<span class="texto-requerido"> (required)</span>
                                 @Html.EditorFor(model => model.Email,
                                 new {
                                     htmlAttributes = new
@@ -156,22 +156,20 @@
                         </div>
                         <div class="col-xs-6 col-sm-6">
                             <div class="form-group col-xs-12 col-sm-12">
-                                <label for="AutorizacionFacturas">Empresa</label><span class="texto-requerido"> (requerido)</span>
-                                <div class="clearfix">
-                                    @if (ViewBag.Contracts != null)
-                                    {
-                                        @Html.DropDownListFor(m => m.IdContract, (IEnumerable<SelectListItem>)ViewBag.Contracts, "SELECCIONE",
-                                            new
-                                            {
-                                                @class = "form-control wizard-form-control CampoRequerido",
-                                                @Id = "ddl_contract"
-                                            })
-                                    }
-                                    else
-                                    {
-                                        @Html.Label("There are no configured contracts")
-                                    }
-                                </div>
+                                @Html.LabelFor(model => model.IdContract)<span class="texto-requerido"> (required)</span>
+                                @if (ViewBag.Contracts != null)
+                                {
+                                    @Html.DropDownListFor(m => m.IdContract, (IEnumerable<SelectListItem>)ViewBag.Contracts, "-- Select --",
+                                        new
+                                        {
+                                            @class = "form-control wizard-form-control CampoRequerido",
+                                            @Id = "ddl_contract"
+                                        })
+                                }
+                                else
+                                {
+                                    @Html.Label("There are no configured contracts")
+                                }
                                 <span id="sp_contract" class="text-danger hide-control"></span>
                             </div>
                         </div>
@@ -181,7 +179,7 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 <button type="button" class="btn btn-primary create-client" id="btncreate">Create</button>
-                <button type="button" class="btn btn-primary hide-control" id="btnupdate">Update</button>
+                <button type="button" class="btn btn-primary update-client hide-control" id="btnupdate">Update</button>
             </div>
         </div>
     </div>

@@ -1,4 +1,5 @@
 ﻿using Entity.Intcomex.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace WebApplicationIntcomex.Models
 {
@@ -15,6 +16,8 @@ namespace WebApplicationIntcomex.Models
             get => FirstName + " " + (string.IsNullOrEmpty(SecondName) ? string.Empty : SecondName) + " " + LastName;
         }
 
+        [Display(Name = "Contract")]
+        public int IdContract { get; set; }
         public string Contract { get; set; }
     }
 }

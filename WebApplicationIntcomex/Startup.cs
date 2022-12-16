@@ -20,6 +20,7 @@ namespace WebApplicationIntcomex
             services.Configure<MyConfig>(Configuration.GetSection("MyConfig"));
             var options = new DbContextOptionsBuilder<IntcomexContext>()
                    .UseSqlServer(new SqlConnection(Configuration.GetConnectionString("Connection")))
+                   .EnableSensitiveDataLogging(true)
                    .Options;
             IntcomexContext _context = new(options);
             services.AddScoped<IClientBO, ClientBO>(x => new ClientBO(new UnitOfWork(_context)));

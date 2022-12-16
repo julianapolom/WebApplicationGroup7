@@ -10,6 +10,8 @@ namespace Business.Intcomex.Class
         private IntcomexContext _context;
         private IRepository<Client> _clients;
         private IRepository<ContractClient> _contracts;
+        private bool disposed = false;
+
         public IRepository<Client> Clients
         {
             get
@@ -28,12 +30,10 @@ namespace Business.Intcomex.Class
                     _contracts;
             }
         }
-
         public UnitOfWork(IntcomexContext context)
         {
             this._context = context;
         }
-
         public void Save()
         {
             _context.SaveChanges();

@@ -1,16 +1,17 @@
 ﻿using Entity.Intcomex.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Business.Intcomex.Interfaces
 {
     public interface IClientBO
     {
-        bool Add(string pClient);
-
         List<Client> GetAll();
+
+        Task<Client> GetById(int pId);
+
+        bool Add(string pClient, out string msError);
+
+        bool Update(string pClient, out string msError);
+
+        bool Delete(int pClient, out string msError);
     }
 }

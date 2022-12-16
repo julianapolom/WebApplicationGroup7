@@ -12,22 +12,29 @@ namespace Business.Intcomex.Class
 
         public List<Client> GetAll() =>
             _uow.Clients.GetAll().ToList();
-        public bool Add(string pClient)
+
+        public async Task<Client> GetById(int pId) =>
+            await _uow.Clients.GetById(pId);
+
+        public bool Add(string pClient, out string msError)
         {
-            Client client = JsonConvert.DeserializeObject<Client>(pClient);
-            bool result = _uow.Clients.Add(client);
+            bool result = _uow.Clients.Add(JsonConvert.DeserializeObject<Client>(pClient), out msError);
             _uow.Save();
             return result;
         }
 
-        public bool Update(Client pClient)
+        public bool Update(string pClient, out string msError)
         {
-            return _uow.Clients.Update(pClient);
+            bool result = _uow.Clients.Update(JsonConvert.DeserializeObject<Client>(pClient), out msError);
+            _uow.Save();
+            return result;
         }
 
-        public bool Delete(int pId)
+        public bool Delete(int pId, out string msError)
         {
-            return _uow.Clients.Delete(pId);
+            bool result = _uow.Clients.Delete(pId, out msError);
+            _uow.Save();
+            return result;
         }
     }
 }

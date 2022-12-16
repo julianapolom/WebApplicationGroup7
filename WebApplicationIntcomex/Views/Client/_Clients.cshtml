@@ -9,7 +9,7 @@
             <th>Charge</th>
             <th>Phone number</th>
             <th>Email</th>
-            @*<th>Contract</th>*@
+            <th>Contract</th>
             <th class="visible-md visible-lg hidden-sm hidden-xs" style="width:10%"></th>
         </tr>
     </thead>
@@ -22,13 +22,13 @@
                 <td>@client.Charge</td>
                 <td>@client.PhoneNumber</td>
                 <td>@client.Email</td>
-                @*<td>@client.Contract</td>*@
+                <td>@client.Contract</td>
                 <td>
                     <div>
-                        <a href="#modal-form-crear-client" data-toggle="modal" data-id-client="@client.IdClient" title="Edit">
+                        <a href="" class="update-modal" data-target="#modal-form-create-client" data-toggle="modal" data-id-client="@client.IdClient" title="Update">
                             <i class="bi bi-pencil text-success"></i>
                         </a>
-                        <a href="" class="red eliminar-client" title="Eliminar" data-id-client="@client.IdClient" data-nombre="@client.IdClient">
+                        <a href="" class="red delete-client" title="Delete" data-id-client="@client.IdClient" data-nombre="@client.FullName">
                             <i class="bi bi-trash text-danger"></i>
                         </a>
                     </div>

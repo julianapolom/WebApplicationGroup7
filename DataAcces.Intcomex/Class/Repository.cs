@@ -38,14 +38,14 @@ namespace DataAcces.Intcomex.Class
         /// </summary>
         /// <param name="id">id a filtrar</param>
         /// <returns>Objeto buscado</returns>
-        public TEntity GetById(int id) =>
-            _dbset.Find(id);
+        public async Task<TEntity> GetById(int id) =>
+            await _dbset.FindAsync(id);
 
         /// <summary>
         /// Crea o inserta registros en la tabla o entidad.
         /// </summary>
         /// <param name="entity"></param>
-        public virtual bool Add(TEntity entity)
+        public bool Add(TEntity entity, out string msError)
         {
             bool result = false;
             using (IDbContextTransaction dbTransaction = _context.Database.BeginTransaction())
@@ -54,11 +54,12 @@ namespace DataAcces.Intcomex.Class
                 {
                     _dbset.Add(entity);
                     dbTransaction.Commit();
-                    _context.SaveChanges();
+                    msError = string.Empty;
                     result = true;
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
+                    msError = ex.Message;
                     dbTransaction.Rollback();
                     result = false;
                 }
@@ -71,21 +72,23 @@ namespace DataAcces.Intcomex.Class
         /// Actualiza el objeto o entidad en base de datos.
         /// </summary>
         /// <param name="entity">Entidad a modificar</param>
-        public virtual bool Update(TEntity entity)
+        public bool Update(TEntity entity, out string msError)
         {
             bool result = false;
             using (IDbContextTransaction dbTransaction = _context.Database.BeginTransaction())
             {
                 try
                 {
+                    _context.Entry(entity).State = EntityState.Detached;
                     _dbset.Attach(entity);
                     _context.Entry(entity).State = EntityState.Modified;
                     dbTransaction.Commit();
-                    _context.SaveChanges();
+                    msError = string.Empty;
                     result = true;
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
+                    msError = ex.Message;
                     dbTransaction.Rollback();
                     result = false;
                 }
@@ -98,20 +101,22 @@ namespace DataAcces.Intcomex.Class
         /// Elimina objetos por id
         /// </summary>
         /// <param name="id">id a filtrar</param>
-        public virtual bool Delete(int id)
+        public bool Delete(int id, out string msError)
         {
             bool result = false;
             using (IDbContextTransaction dbTransaction = _context.Database.BeginTransaction())
             {
                 try
                 {
-                    _dbset.Remove(_dbset.Find(id));
+                    var entity = _dbset.Find(id);
+                    _dbset.Remove(entity);
                     dbTransaction.Commit();
-                    _context.SaveChanges();
+                    msError = string.Empty;
                     result = true;
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
+                    msError = ex.Message;
                     dbTransaction.Rollback();
                     result = false;
                 }
@@ -119,5 +124,11 @@ namespace DataAcces.Intcomex.Class
 
             return result;
         }
+
+        /// <summary>
+        /// Guarda los cambios en base de datos.
+        /// </summary>
+        public void Save() =>
+            _context.SaveChanges();
     }
 }

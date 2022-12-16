@@ -3,9 +3,10 @@
     public interface IRepository<TEntity>
     {
         IEnumerable<TEntity> GetAll();
-        TEntity GetById(int id);
-        bool Add(TEntity entity);
-        bool Update(TEntity entity);
-        bool Delete(int id);
+        Task<TEntity> GetById(int id);
+        bool Add(TEntity entity, out string msError);
+        bool Update(TEntity entity, out string msError);
+        bool Delete(int id, out string msError);
+        void Save();
     }
 }
