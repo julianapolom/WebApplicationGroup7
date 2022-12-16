@@ -1,9 +1,8 @@
 ﻿using Business.Intcomex.Interfaces;
-using Entity.Intcomex.Models;
+using Entity.Intcomex.EntitiesDTO;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Options;
-using System.Security.Cryptography;
 using Tools;
 using WebApplicationIntcomex.Configuration;
 using WebApplicationIntcomex.Models;
@@ -21,6 +20,13 @@ namespace WebApplicationIntcomex.Controllers
         #endregion
 
         #region Métodos públicos
+
+        /// <summary>
+        /// Constructor de la clase.
+        /// </summary>
+        /// <param name="config">Inyección de la configuración</param>
+        /// <param name="clientbo">Inyección del cliente</param>
+        /// <param name="contract">Inyección del contrato</param>
         public ClientController(IOptions<MyConfig> config, IClientBO clientbo, IContractBO contract)
         {
             _config = config;
@@ -28,33 +34,50 @@ namespace WebApplicationIntcomex.Controllers
             _contract = contract;
         }
 
+        /// <summary>
+        /// Carga la pantalla inicial.
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public IActionResult Index()
         {
             LoadViewBags();
-            ClientVM model = new()
-            {
-                ListClients = new List<ClientDTO>()
-            };
-
-            model.ListClients = _clientbo.GetAll().Select(client => Merge(client)).ToList();
+            ClientVM model = new() { ListClients = new List<ClientDTO>() };
+            model.ListClients = _clientbo.GetAll(out string msError);
+            ChatError(msError);
             return View(model);
         }
 
+        /// <summary>
+        /// Optiene los clientes
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public ActionResult GetAll()
         {
-            List<ClientDTO> ListClients = _clientbo.GetAll().Select(client => Merge(client)).ToList();
+            List<ClientDTO> ListClients = _clientbo.GetAll(out string msError);
+            ChatError(msError);
             return PartialView("_Clients", ListClients);
         }
 
+        /// <summary>
+        /// Optiene el cliente por id
+        /// </summary>
+        /// <param name="pId">id a filtrar</param>
+        /// <returns></returns>
         [HttpGet]
-        public async Task<JsonResult> GetById(int pId)
+        public JsonResult GetById(int pId)
         {
-            ClientDTO client = Merge(await _clientbo.GetById(pId));
+            ClientDTO client = _clientbo.GetById(pId, out string msError);
+            ChatError(msError);
             return Json(client);
         }
 
+        /// <summary>
+        /// Registra un cliente en base de datos.
+        /// </summary>
+        /// <param name="pModel"></param>
+        /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public JsonResult Create(string pModel)
@@ -66,12 +89,15 @@ namespace WebApplicationIntcomex.Controllers
             };
 
             result.Mesaje = result.Status ? "Customer successfully created" : "It was not possible to create the client";
-            if (!string.IsNullOrEmpty(msError))
-                Log.GetInstance(_config.Value.PathLog).Save(msError);
-
+            ChatError(msError);
             return Json(result);
         }
 
+        /// <summary>
+        /// Actualiza un cliente en base de datos.
+        /// </summary>
+        /// <param name="pModel"></param>
+        /// <returns></returns>
         [HttpPut]
         [ValidateAntiForgeryToken]
         public JsonResult Update(string pModel)
@@ -83,12 +109,15 @@ namespace WebApplicationIntcomex.Controllers
             };
 
             result.Mesaje = result.Status ? "Client successfully updated" : "It was not possible to update the client";
-            if (!string.IsNullOrEmpty(msError))
-                Log.GetInstance(_config.Value.PathLog).Save(msError);
-
+            ChatError(msError);
             return Json(result);
         }
 
+        /// <summary>
+        /// Elimina clientes por id.
+        /// </summary>
+        /// <param name="pId">id a filtrar</param>
+        /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public JsonResult Delete(int pId)
@@ -99,9 +128,7 @@ namespace WebApplicationIntcomex.Controllers
             };
 
             result.Mesaje = result.Status ? "Customer successfully deleted" : "It was not possible to delete the client";
-            if (!string.IsNullOrEmpty(msError))
-                Log.GetInstance(_config.Value.PathLog).Save(msError);
-
+            ChatError(msError);
             return Json(result);
         }
 
@@ -109,25 +136,19 @@ namespace WebApplicationIntcomex.Controllers
 
         #region Métodos privados
 
-        private Func<Client, ClientDTO> Merge = (client) =>
+        /// <summary>
+        /// Escribe en el log.txt en caso de error.
+        /// </summary>
+        /// <param name="msError"></param>
+        private void ChatError(string msError)
         {
-            ClientDTO clientDTO = new ClientDTO
-            {
-                IdClient= client.IdClient,
-                UserClient = client.UserClient,
-                FirstName = client.FirstName,
-                SecondName = client.SecondName,
-                LastName = client.LastName,
-                Charge = client.Charge,
-                PhoneNumber = client.PhoneNumber,
-                Email = client.Email,
-                IdContract = client.IdContractNavigation.IdContract,
-                Contract = client.IdContractNavigation.TypeContract
-            };
+            if (!string.IsNullOrEmpty(msError))
+                Log.GetInstance(_config.Value.PathLog).Save(msError);
+        }
 
-            return clientDTO;
-        };
-
+        /// <summary>
+        /// Método para cargar los viewbags
+        /// </summary>
         private void LoadViewBags()
         {
             ViewBag.Contracts = _contract.GetAll()

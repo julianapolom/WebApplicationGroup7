@@ -1,12 +1,13 @@
-﻿using Entity.Intcomex.Models;
+﻿using Entity.Intcomex.EntitiesDTO;
+using Entity.Intcomex.Models;
 
 namespace Business.Intcomex.Interfaces
 {
     public interface IClientBO
     {
-        List<Client> GetAll();
+        List<ClientDTO> GetAll(out string msError);
 
-        Task<Client> GetById(int pId);
+        ClientDTO GetById(int pId, out string msError);
 
         bool Add(string pClient, out string msError);
 

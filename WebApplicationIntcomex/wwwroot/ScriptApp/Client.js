@@ -1,6 +1,6 @@
 ﻿jQuery(function ($) {
     $('form').submit(function (e) {
-        $(".modalCargando").show();
+        SiteTools.ShowLoading();
     });
 
     $('#tablaClients').DataTable();

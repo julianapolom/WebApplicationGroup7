@@ -1,4 +1,5 @@
 ﻿using DataAcces.Intcomex.Interfaces;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 
@@ -38,8 +39,8 @@ namespace DataAcces.Intcomex.Class
         /// </summary>
         /// <param name="id">id a filtrar</param>
         /// <returns>Objeto buscado</returns>
-        public async Task<TEntity> GetById(int id) =>
-            await _dbset.FindAsync(id);
+        public TEntity GetById(int id) =>
+             _dbset.Find(id);
 
         /// <summary>
         /// Crea o inserta registros en la tabla o entidad.
@@ -54,7 +55,9 @@ namespace DataAcces.Intcomex.Class
                 {
                     _dbset.Add(entity);
                     dbTransaction.Commit();
-                    msError = string.Empty;
+                    _context.ChangeTracker.Entries().ToList().ForEach(e => { e.Reload(); });
+                    _context.SaveChanges();
+                    msError = string.Empty;                    
                     result = true;
                 }
                 catch (Exception ex)
@@ -72,17 +75,19 @@ namespace DataAcces.Intcomex.Class
         /// Actualiza el objeto o entidad en base de datos.
         /// </summary>
         /// <param name="entity">Entidad a modificar</param>
-        public bool Update(TEntity entity, out string msError)
+        public virtual bool Update(TEntity entity, string connection, out string msError)
         {
-            bool result = false;
-            using (IDbContextTransaction dbTransaction = _context.Database.BeginTransaction())
+            bool result;
+            RefreshContext(connection);
+            using (IDbContextTransaction dbTransaction = ContextUpdate.Database.BeginTransaction())
             {
                 try
                 {
-                    _context.Entry(entity).State = EntityState.Detached;
-                    _dbset.Attach(entity);
-                    _context.Entry(entity).State = EntityState.Modified;
+                    DbSetUpdate.Attach(entity);
+                    ContextUpdate.Entry(entity).State = EntityState.Modified;
                     dbTransaction.Commit();
+                    ContextUpdate.SaveChanges();
+                    _context.ChangeTracker.Entries().ToList().ForEach(e => { e.Reload(); });
                     msError = string.Empty;
                     result = true;
                 }
@@ -111,6 +116,7 @@ namespace DataAcces.Intcomex.Class
                     var entity = _dbset.Find(id);
                     _dbset.Remove(entity);
                     dbTransaction.Commit();
+                    _context.SaveChanges();
                     msError = string.Empty;
                     result = true;
                 }
@@ -126,9 +132,28 @@ namespace DataAcces.Intcomex.Class
         }
 
         /// <summary>
-        /// Guarda los cambios en base de datos.
+        /// Refresca la información del contexto.
         /// </summary>
-        public void Save() =>
-            _context.SaveChanges();
+        /// <param name="contextUpdate"></param>
+        /// <param name="_dbsetUpdate"></param>
+        protected void RefreshContext(string connection)
+        {
+            var options = new DbContextOptionsBuilder<IntcomexContext>()
+                   .UseSqlServer(new SqlConnection(connection))
+                   .Options;
+
+            ContextUpdate = new IntcomexContext(options);
+            DbSetUpdate = ContextUpdate.Set<TEntity>();
+        }
+
+        /// <summary>
+        /// Contexto que libera al _context actual
+        /// </summary>
+        protected IntcomexContext ContextUpdate { get; set; }
+
+        /// <summary>
+        /// BDSet que librera el _dbset actual
+        /// </summary>
+        protected DbSet<TEntity> DbSetUpdate { get; set; }
     }
 }

@@ -1,4 +1,4 @@
-﻿@model WebApplicationIntcomex.Models.ClientDTO
+﻿@model Entity.Intcomex.EntitiesDTO.ClientDTO
 <style>
     .hide-control {
         display: none;
@@ -47,7 +47,7 @@
                                         @maxlength = 25,
                                         @placeholder = "Second Name",
                                         @autocomplete = "off",
-                                        @class = "form-control wizard-form-control CampoRequerido",
+                                        @class = "form-control wizard-form-control",
                                         @onkeypress = "return SiteTools.restrictBolean('letters', event.key);",
                                         @onblur = "SiteTools.restrictValor('letters', this)"
                                     }
@@ -83,12 +83,12 @@
                                     htmlAttributes = new
                                     {
                                         @Id = "txt_userclient",
-                                        @maxlength = 25,
+                                        @maxlength = 10,
                                         @placeholder = "User Client",
                                         @autocomplete = "off",
                                         @class = "form-control wizard-form-control CampoRequerido",
-                                        @onkeypress = "return SiteTools.restrictBolean('letters', event.key);",
-                                        @onblur = "SiteTools.restrictValor('letters', this)"
+                                        @onkeypress = "return SiteTools.restrictBolean('lettersAndNumbers', event.key);",
+                                        @onblur = "SiteTools.restrictValor('lettersAndNumbers', this)"
                                     }
                                 })
                                 <span id="sp_userclient" class="text-danger hide-control"></span>

@@ -23,7 +23,7 @@ namespace WebApplicationIntcomex
                    .EnableSensitiveDataLogging(true)
                    .Options;
             IntcomexContext _context = new(options);
-            services.AddScoped<IClientBO, ClientBO>(x => new ClientBO(new UnitOfWork(_context)));
+            services.AddScoped<IClientBO, ClientBO>(x => new ClientBO(new UnitOfWork(_context), Configuration));
             services.AddScoped<IContractBO, ContractBO>(x => new ContractBO(new UnitOfWork(_context)));
         }
 

@@ -7,49 +7,44 @@
                 Clients Administration
             </h1>
         </div>
-        <div class="col-md-6 text-right pt-3">
-            <button type="button" class="btn btn-outline-primary create-btn" data-toggle="modal" data-target="#modal-form-create-client">
+    </div>
+    <div class="row">
+        <div class="col-md-3 text-left pt-3">
+            <button type="button" autofocus class="btn btn-info create-btn form-control" data-toggle="modal" data-target="#modal-form-create-client">
                 Create client
             </button>
         </div>
     </div>
     <hr />
     <div class="row">
-        <div class="col-xs-12 col-sm-12">
-            <br />
-            <input type="hidden" id="hdIdClient" />
-            @if (Model != null)
-            {
-                <div class="row">
-                    <div class="col-xs-12 col-sm-12" id="tblResultado">
-                        <div style="width:100%" width="100%">
-                            <div class="table-header">
-                                <div class="row">
-                                    <div class="col-xs-10 col-sm-10">
-                                        Search results
-                                    </div>
-                                </div>
-                                <div class="pull-right tableTools-container"></div>
-                            </div>
-                            <div class="divInforme">
-                                @await Html.PartialAsync("_Clients", Model.ListClients)
-                            </div>
+        <input type="hidden" id="hdIdClient" />
+        @if (Model != null)
+        {
+            <div class="col-md-12 bg-white" id="tblResultado">
+                <div class="table-header">
+                    <div class="row">
+                        <div class="col-md-12 bg-info text-light form-control">
+                            Clients search results
                         </div>
                     </div>
+                    <br />
+                    <div class="pull-right tableTools-container"></div>
                 </div>
-            }
-        </div>
+                <div class="div-table">
+                    @await Html.PartialAsync("_Clients", Model.ListClients)
+                </div>
+            </div>
+        }
     </div>
 </form>
-<!-- Modal para crear un área -->
 @await Html.PartialAsync("_ModalCrearClient", Model?.modelPopUp)
-<script>
-    var urlGetAll = '@Url.Action("GetAll", "Client")',
-        urlGetById = '@Url.Action("GetById", "Client")',
-        urlCreate = '@Url.Action("Create", "Client")',
-        urlUpdate = '@Url.Action("Update", "Client")',
-        urlDelete = '@Url.Action("Delete", "Client")';
-</script>
 @section scripts{
+    <script>
+        var urlGetAll = '@Url.Action("GetAll", "Client")',
+            urlGetById = '@Url.Action("GetById", "Client")',
+            urlCreate = '@Url.Action("Create", "Client")',
+            urlUpdate = '@Url.Action("Update", "Client")',
+            urlDelete = '@Url.Action("Delete", "Client")';
+    </script>
     <script src="@Url.Content("~/scriptapp/Client.js")"></script>
 }

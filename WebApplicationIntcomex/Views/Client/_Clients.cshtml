@@ -1,4 +1,4 @@
-﻿@using WebApplicationIntcomex.Models;
+﻿@using Entity.Intcomex.EntitiesDTO;
 @model List<ClientDTO>
 <!-- GRID -->
 <table id="tablaClients" class="table table-striped table-bordered table-hover">
@@ -26,7 +26,7 @@
                 <td>
                     <div>
                         <a href="" class="update-modal" data-target="#modal-form-create-client" data-toggle="modal" data-id-client="@client.IdClient" title="Update">
-                            <i class="bi bi-pencil text-success"></i>
+                            <i class="bi bi-pencil text-info"></i>
                         </a>
                         <a href="" class="red delete-client" title="Delete" data-id-client="@client.IdClient" data-nombre="@client.FullName">
                             <i class="bi bi-trash text-danger"></i>

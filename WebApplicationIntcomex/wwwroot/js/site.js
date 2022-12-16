@@ -1,40 +1,7 @@
 ﻿// Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
 // for details on configuring this project to bundle and minify static web assets.
-
-// Write your JavaScript code.
-
 // Espacio de nombre  of function 
 var SiteTools = {
-    DataTableOrderCustome: function (tagDatatable, pColumns) {
-        let aoColumnDefs = [];
-        aoColumnDefs = pColumns;
-        var _table = $(tagDatatable).dataTable({
-            "retrieve": true,
-            "bDestroy": true,
-            "bPaginate": true,
-            "bLengthChange": true,
-            "bFilter": true,
-            "bSort": true,
-            "bInfo": true,
-            "deferRender": true,
-            "bAutoWidth": true,
-            "processing": true,
-            "serverSide": true,
-            oSearch: { "sSearch": "", "bRegex": false, "bSmart": false },
-            "oLanguage": {
-                "sLengthMenu": "Mostrar _MENU_ registros por página", //"Display _MENU_ records per page",
-                "sZeroRecords": "Sin datos.", //"Nothing found - sorry",
-                "sInfo": "N&uacute;mero de registros: _TOTAL_", //"Showing _TOTAL_1 to _START_ of _END_ entries",
-                "sInfoEmpty": "No hay registros disponibles", //"No records available",
-                "sInfoFiltered": "(filtrado de _MAX_ total de registros)", //"(filtered from _MAX_ total records)",
-                "sSearch": "Buscar"
-            },
-            aoColumnDefs
-        });
-
-        return _table;
-    },
-
     //--------------------------------------------------------------------------------------
     // Funcion que controla los mensajes de error, advertencia o satisfactorios.
     Messages: function (titulo, texto, className) {
@@ -89,7 +56,7 @@ var SiteTools = {
             }
             else {
                 var vArray = [];
-                vArray.push('@yopmail.', 'rforeroreyes@yahoo.com', '@memeil.', '@thraml.', '@arasj.', '@maildrop.', '@awdrt.', '@mailinator.', '@harakirimail.', '@spam4.'
+                vArray.push('@yopmail.', '@yahoo.com', '@memeil.', '@thraml.', '@arasj.', '@maildrop.', '@awdrt.', '@mailinator.', '@harakirimail.', '@spam4.'
                     , '@dispostable.', '@correotemporal.', '@sharklasers.', '@guerrillamail.', '@grr.', '@guerrillamailblock.', '@pokemail.'
                     , '@spamgourmet.', '@getnada.', '@trashmail.', '@spambog.', '@tempr.', '@discard.', '@discardmail.', '@0815.', '@btcmail.'
                     , '@hartbot.', '@freundin.', '@smashmail.', '@s0ny.', '@pecinan.', '@budaya-tionghoa.', '@lajoska.', '@1mail.', '@from.'
@@ -100,9 +67,8 @@ var SiteTools = {
                 );
 
                 vArray.forEach(function (object) {
-                    if (contenido.toLowerCase().indexOf(object.toLowerCase()) > -1) {
+                    if (contenido.toLowerCase().indexOf(object.toLowerCase()) > -1)
                         $(control).val('');
-                    }
                 });
             }
         }
@@ -171,7 +137,7 @@ var SiteTools = {
 function ExpresionRegular(name) {
     var preregex = {
         "letters": /[^A-zÀ-ú\s]+|[-!$%^&*()_+|~=`{}\[\]:";'<>?,.Ç\/]+/
-        , "lettersNoSpaces": /[^A-zÀ-ú\\s]+|[-!$%^&*()_+|~=`{}\[\]:";'<>?,.Ç\/]+/
+        , "lettersAndNumbers": /[^A-zÀ-ú\d\\s]+|[\[\]_]+/
         , "numbers": /[^0-9]/
         , "correo": /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
     };
@@ -187,7 +153,7 @@ function ExpresionRegular(name) {
 // Boquedo f12
 //--------------------------------------------------------------------------------------
 (function () {
-    //$(document).keydown(function (event) { if (event.keyCode == 123) { return false; } else if (event.ctrlKey && event.shiftKey && event.keyCode == 73) { return false; } });
-    //$(document).on("contextmenu", function (e) { e.preventDefault(); });
+    $(document).keydown(function (event) { if (event.keyCode == 123) { return false; } else if (event.ctrlKey && event.shiftKey && event.keyCode == 73) { return false; } });
+    $(document).on("contextmenu", function (e) { e.preventDefault(); });
 })()
 

@@ -7,6 +7,5 @@ namespace Business.Intcomex.Interfaces
     {
         IRepository<Client> Clients { get; }
         IRepository<ContractClient> Contracts { get; }
-        void Save();
     }
 }
