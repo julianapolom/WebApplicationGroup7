@@ -116,8 +116,8 @@ namespace Business.Intcomex.Class
                 Charge = client.Charge,
                 PhoneNumber = client.PhoneNumber,
                 Email = client.Email,
-                IdContract = client.IdContractNavigation.IdContract,
-                Contract = client.IdContractNavigation.TypeContract
+                IdContract = (client.IdContractNavigation?.IdContract) ?? 0,
+                Contract = (client.IdContractNavigation?.TypeContract) ?? string.Empty
             };
 
             return clientDTO;
