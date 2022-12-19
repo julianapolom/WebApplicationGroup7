@@ -28,11 +28,13 @@ Descargar proyecto:
 * `git clole https://github.com/EstebanGit215/EC_PruebaIntcomex.git`
 
 Crear base de datos:
-* En la carpeta raís encontrara un archivo `Intcomex.bak` que contiene el backup de la base de datos.
-* Restaure la base de datos `Intcomex.bak` desde el [Sql Management](https://learn.microsoft.com/en-us/sql/ssms/download-sql-server-management-studio-ssms?view=sql-server-ver16)
+* En la carpeta 1.database `EC_PruebaIntcomex\1. DataBase\Intcomex.bak` encontrará un archivo .bak que contiene el backup de la base de datos.
+* Restaure la base de datos `EC_PruebaIntcomex\1. DataBase\Intcomex.bak` desde el [Sql Management](https://learn.microsoft.com/en-us/sql/ssms/download-sql-server-management-studio-ssms?view=sql-server-ver16)
+![image](https://user-images.githubusercontent.com/52761564/208332971-4c748ba5-ad35-40f5-9ac4-c284d3b19cd7.png)
 
-Ejecutar solución:
-* Desde la carpeta del proyesto EC_PruebaIntcomex, ejecute desde el [Visual Studio](https://visualstudio.microsoft.com/es/vs/community/) el archivo .sln `EC_PruebaIntcomex\WebApplicationIntcomex\WebApplicationIntcomex.sln`
+
+Preparar solución:
+* Desde la carpeta del proyesto WebApplicationIntcomex, ejecute desde el [Visual Studio](https://visualstudio.microsoft.com/es/vs/community/) el archivo .sln `EC_PruebaIntcomex\WebApplicationIntcomex\WebApplicationIntcomex.sln`
 
 Configuración de conexión:
 * Abra el archivo `EC_PruebaIntcomex\WebApplicationIntcomex\appsettings.json`
@@ -40,6 +42,15 @@ Configuración de conexión:
 >`"ConnectionStrings": {
     "Connection": "Server=<YOUR_SERVER>;DataBase=Intcomex;Trusted_Connection=yes;Encrypt=false;"
   }`
+
+Ejecutar solución:
+* Establesca el pryecto WebApplicationIntcomex como proyecto de inicio y ejecute la solución
+
+Ejecutar pruebas:
+* En el menú principal del [Visual Studio](https://visualstudio.microsoft.com/es/vs/community/) habilite la consola de exploración de pruebas:
+![image](https://user-images.githubusercontent.com/52761564/208333808-0f1fb824-37e9-403c-b5b2-0b6ecf767496.png)
+* En el menú de la consola de pruebas (Test explorer) se habilitará un menú con la opción de Run, el cual podra en ejecución test creados.
+![image](https://user-images.githubusercontent.com/52761564/208333986-810a97e1-e248-477d-9ca4-b8a5b3c3ea73.png)
 
 ## Funcionamiento
 
