@@ -17,5 +17,19 @@ jobs:
     steps:
       - name: Check out repository code ('${{ github.repository }}' cloned to the runner)
         uses: actions/checkout@v2
-    
+        
+      - name: Setup .NET Core SDK (${{ env.DOTNET_CORE_VERSION }})
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: ${{ env.DOTNET_CORE_VERSION }}
+ 
+      - name: Restore Packages
+        run: dotnet restore "${{ env.PROJECT_PATH }}"
+
+      - name: Build - .NET Core ${{ env.DOTNET_CORE_VERSION }}
+        run: dotnet build --configuration ${{ env.BUILD_CONFIGURATION }}
+        working-directory: "${{ env.PROJECT_PATH }}"
+        
+      - name: Unit Tests 
+        run: dotnet test ${{ env.PROJECT_TEST_PATH }}
       
