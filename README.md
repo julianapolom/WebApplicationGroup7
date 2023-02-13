@@ -1,7 +1,5 @@
 # Prueba Developer Intcomex
-### Introducción
-### Instalación
-### Funcionamiento
+[![GitHub Actions DotNet](https://github.com/EstebanGit215/EC_PruebaIntcomex/actions/workflows/github-actions-dotnet.yaml/badge.svg)](https://github.com/EstebanGit215/EC_PruebaIntcomex/actions/workflows/github-actions-dotnet.yaml)
 
 
 ## Introducción
