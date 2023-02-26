@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using WebApplicationIntcomex.Models;
 
 namespace WebApplicationIntcomex.Controllers
 {
