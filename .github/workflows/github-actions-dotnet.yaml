@@ -36,13 +36,13 @@ jobs:
         run: dotnet test ${{ env.PROJECT_TEST_PATH }}
 
       - name: Publish artifact
-        run: dotnet publish -c Release --property:PublishDir='${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/WebApplicationIntcomex'
+        run: dotnet publish -c Release --property:PublishDir='${{ env.PROJECT_PATH }}'
 
       - name: Upload artifact
         uses: actions/upload-artifact@v2
         with:
           name: .net-app
-          path: ${{env.AZURE_WEBAPP_PACKAGE_PATH}}/WebApplicationIntcomex
+          path: ${{env.PROJECT_PATH}}
   
   deploy:
     runs-on: windows-latest
