@@ -5,7 +5,7 @@ on:
       - '**/*.md'
 
 jobs:
-  Job-DotNet-Push:
+  build-test:
     runs-on: ubuntu-latest
     env:
       DOTNET_CORE_VERSION: 7.0.x
@@ -32,4 +32,34 @@ jobs:
         
       - name: Unit Tests 
         run: dotnet test ${{ env.PROJECT_TEST_PATH }}
-      
+
+      - name: Publish artifact
+        run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: .net-app
+          path: ${{env.DOTNET_ROOT}}/myapp
+  
+  deploy:
+
+    runs-on: windows-latest
+    needs: build
+    environment:
+      name: 'development'
+      url: ${{ webappgroup7.azurewebsites.net }}
+    steps:
+      - name: Download artifact from build job
+        uses: actions/download-artifact@v2
+        with:
+          name: .net-app
+
+      - name: Deploy to Azure Web App
+        id: deploy-to-webapp
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: 'WebAppGroup7'
+          slot-name: 'production'
+          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+          package: .
