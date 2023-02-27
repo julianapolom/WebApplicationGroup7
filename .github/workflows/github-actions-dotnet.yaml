@@ -14,6 +14,8 @@ jobs:
       BUILD_CONFIGURATION: Release
       PROJECT_PATH: 'WebApplicationIntcomex'
       PROJECT_TEST_PATH: 'UnitTest'
+      AZURE_WEBAPP_NAME: 'WebAppGroup7'
+      AZURE_WEBAPP_PACKAGE_PATH: '.' 
     steps:
       - name: Check out repository code ('${{ github.repository }}' cloned to the runner)
         uses: actions/checkout@v2
@@ -34,13 +36,13 @@ jobs:
         run: dotnet test ${{ env.PROJECT_TEST_PATH }}
 
       - name: Publish artifact
-        run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
+        run: dotnet publish -c Release --property:PublishDir='${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/myapp'
 
       - name: Upload artifact
         uses: actions/upload-artifact@v2
         with:
           name: .net-app
-          path: ${{env.DOTNET_ROOT}}/myapp
+          path: ${{env.AZURE_WEBAPP_PACKAGE_PATH}}/myapp
   
   deploy:
     runs-on: windows-latest
@@ -58,6 +60,6 @@ jobs:
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v2
         with:
-          app-name: 'WebAppGroup7'
+          app-name: ${{ env.AZURE_WEBAPP_NAME }}
           publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
-          package: '${{env.DOTNET_ROOT}}/myapp'
+          package: '${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/myapp'
