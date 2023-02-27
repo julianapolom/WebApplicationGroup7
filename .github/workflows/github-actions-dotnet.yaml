@@ -36,7 +36,7 @@ jobs:
         run: dotnet test ${{ env.PROJECT_TEST_PATH }}
 
       - name: Publish artifact
-        run: dotnet publish -c Release --property:PublishDir='${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/myapp'
+        run: dotnet publish -c Release --property:PublishDir='${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/WebApplicationIntcomex'
 
       - name: Upload artifact
         uses: actions/upload-artifact@v2
@@ -62,4 +62,4 @@ jobs:
         with:
           app-name: ${{ env.AZURE_WEBAPP_NAME }}
           publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
-          package: '${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/myapp'
+          package: '${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/WebApplicationIntcomex'
