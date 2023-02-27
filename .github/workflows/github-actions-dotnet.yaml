@@ -14,7 +14,8 @@ jobs:
       BUILD_CONFIGURATION: Release
       PROJECT_PATH: 'WebApplicationIntcomex'
       PROJECT_TEST_PATH: 'UnitTest'
-      AZURE_WEBAPP_NAME: 'WebAppGroup7'
+      AZURE_WEBAPP_NAME_DEV: 'WebAppGroup7'
+      AZURE_WEBAPP_NAME_PROD: 'WebAppGroup7-PROD'
       AZURE_WEBAPP_PACKAGE_PATH: '.' 
     steps:
       - name: Check out repository code ('${{ github.repository }}' cloned to the runner)
@@ -45,12 +46,9 @@ jobs:
           name: .net-app
           path: ${{env.PROJECT_PATH}}
   
-  deploy:
+  deploy-dev:
     runs-on: windows-latest
     needs: build-test
-    environment:
-      name: 'development'
-      url: 'webappgroup7.azurewebsites.net'
     steps:
       - name: Download artifact from build job
         uses: actions/download-artifact@v2
@@ -61,6 +59,23 @@ jobs:
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v2
         with:
-          app-name: ${{ env.AZURE_WEBAPP_NAME }}
+          app-name: ${{ env.AZURE_WEBAPP_NAME_DEV }}
           publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+          package: '.net-app'
+
+  deploy-prod:
+    runs-on: windows-latest
+    needs: deploy-dev
+    steps:
+      - name: Download artifact from build job
+        uses: actions/download-artifact@v2
+        with:
+          name: .net-app
+
+      - name: Deploy to Azure Web App
+        id: deploy-to-webapp
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: ${{ env.AZURE_WEBAPP_NAME_PROD }}
+          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE_PROD }}
           package: '.net-app'
