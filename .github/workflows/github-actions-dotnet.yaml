@@ -36,7 +36,7 @@ jobs:
         run: dotnet test ${{ env.PROJECT_TEST_PATH }}
 
       - name: Publish artifact
-        run: dotnet publish -c Release
+        run: dotnet publish -c Release -o ../net-app
 
       - name: Upload artifact
         uses: actions/upload-artifact@v2
