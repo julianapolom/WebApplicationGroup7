@@ -36,7 +36,7 @@ jobs:
         run: dotnet test ${{ env.PROJECT_TEST_PATH }}
 
       - name: Publish artifact
-        run: dotnet publish -c Release --property:PublishDir='${{ env.PROJECT_PATH }}'
+        run: dotnet publish -c Release --property:PublishDir='${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/myapp'
 
       - name: Upload artifact
         uses: actions/upload-artifact@v2
