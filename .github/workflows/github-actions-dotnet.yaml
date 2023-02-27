@@ -44,10 +44,10 @@ jobs:
   
   deploy:
     runs-on: windows-latest
-    needs: build
+    needs: build-test
     environment:
       name: 'development'
-      url: ${{ webappgroup7.azurewebsites.net }}
+      url: 'webappgroup7.azurewebsites.net'
     steps:
       - name: Download artifact from build job
         uses: actions/download-artifact@v2
